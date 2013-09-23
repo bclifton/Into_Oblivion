@@ -66,8 +66,10 @@ class Paper {
  
       if (overVoid(x, y, w, h)) {      
         rotate = rotate + 0.15;     // causes the rectangle() to rotate when overVoid
-        rw = rw - 1;                // shrinks the rectangle() width
-        rh = rh - 1;                // shirnks the rectangle() height
+        while (rw > 0 || rh >0) {
+          rw = rw - 1;              // shrinks the rectangle() width
+          rh = rh - 1.4;            // shrinks the rectangle() height
+        }
       }
     } 
     

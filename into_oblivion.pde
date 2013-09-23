@@ -3,8 +3,6 @@ int h = 70;
 float a = 0;
 PImage img;
 
-
-
 Paper papers1;
 Paper papers2;
 Paper papers3;
@@ -48,8 +46,8 @@ void draw() {
 class Paper {
   int x, y, w, h;
   int f, s;
+  float rw, rh;
   float rotate = 0;
-  float shrink = 0;
   boolean over;
   boolean locked = false;
 
@@ -64,32 +62,31 @@ class Paper {
 
   void display() {          // draws the shape
     if (pressed()) {        // checks to see if the paper has been pressed
-//      rectangle(rotate, shrink);    // [TEST] for adding the scale(shrink) attribute
-      rectangle(rotate);    // renders the moving paper animation
+      rectangle(rw, rh, rotate);    // renders the moving paper animation
  
       if (overVoid(x, y, w, h)) {      
         rotate = rotate + 0.15;     // causes the rectangle() to rotate when overVoid
-//        shrink = shrink + 0.1;     // causes the rectangle() to shrink from view [BROKEN]
+        rw = rw - 1;                // shrinks the rectangle() width
+        rh = rh - 1;                // shirnks the rectangle() height
       }
     } 
     
     else {
-//      rectangle(0, 0);    // [TEST] for adding the scale(shrink) attribute
-      rectangle(0);
+      rw = w;
+      rh = h;
+      rectangle(rw, rh, 0);
 
     }
   }
   
-//  void rectangle(float rotate, float shrink) {    // [TEST] for adding the scale(shrink) attribute
-  void rectangle(float rotate) {
+  void rectangle(float rw, float rh, float rotate) {
     pushMatrix();
-      translate(x+w/2, y+h/2);
+      translate(x+rw/2, y+rh/2);
       rotate(rotate);
-//      scale(shrink);    // [TEST] for adding the scale(shrink) attribute
       stroke(s);
       fill(f);
       rectMode(CENTER);
-      rect(0, 0, w, h);
+      rect(0, 0, rw, rh);
     popMatrix();    
   }
 

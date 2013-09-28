@@ -4,7 +4,7 @@ class Paper {
   float rw, rh;
   float rotate = 0;
   boolean over;
-  boolean locked = false;
+  boolean locked;
 
   Paper (int _x, int _y, int _w, int _h) {  // Constructor
     x = _x;
@@ -16,27 +16,24 @@ class Paper {
   }
 
   void display() {          // draws the shape
-    if (pressed()) {        // checks to see if the paper has been pressed
-      rectangle(rw, rh, rotate);    // renders the moving paper animation
- 
+    if (locked) {        // checks to see if the paper has been pressed
+      paper(rw, rh, rotate);    // renders the moving paper animation
+
       if (overVoid(x, y, w, h)) {      
         rotate = rotate + 0.15;     // causes the rectangle() to rotate when overVoid
         if (rw > 0 || rh > 0) {
           rw = rw - 1;             // shrinks the rectangle() width
-          rh = rh - 1.4;            // shrinks the rectangle() height        
+          rh = rh - 1.4;            // shrinks the rectangle() height
         }
       }
-    } 
- 
-    else {
+    } else {
       rw = w;
       rh = h;
-      rectangle(rw, rh, 0);
-
+      paper(rw, rh, 0);
     }
   }
-  
-  void rectangle(float rw, float rh, float rotate) {
+
+  void paper(float rw, float rh, float rotate) {
     pushMatrix();
       translate(x+rw/2, y+rh/2);
       rotate(rotate);
@@ -44,38 +41,63 @@ class Paper {
       fill(f);
       rectMode(CENTER);
       rect(0, 0, rw, rh);
-    popMatrix();    
+    popMatrix();
   }
 
-  void cursorOverShape() {
-    if (overShape(x, y, w, h)) {    // references the overPaper function which determines if the cursor is over the shape.
-      over = true;
+//  boolean pressed() {
+//    if (over && mousePressed) {  // checks to see if the cursor is over the shape && if mousePressed
+//      x = mouseX-w/2;            // moves the paper along with the mouse
+//      y = mouseY-h/2;            // moves the paper along with the mouse
+//      return true;
+//    } else {   
+//      return false;
+//    }
+//  }
+
+  boolean overEvent(/*int x, int y, int w, int h*/) { // Checks to see if the mouse is over the shape.
+    if (mouseX >= x && mouseX <= x + w && 
+        mouseY >= y && mouseY < y +h) {
+      return true;
     } else {
-      over = false;  
+      return false;
     }
   }
 
-  boolean pressed() {
-    if (over && mousePressed) {  // checks to see if the cursor is over the shape && if mousePressed
-      x = mouseX-w/2;            // moves the paper along with the mouse
-      y = mouseY-h/2;            // moves the paper along with the mouse
+  boolean overVoid(int x, int y, int w, int h) { // HOW DO I DETERMINE THE EDGES OF A CURVED SHAPE?? MATRIX??
+    // stroke(0,0, 200); // ellipse
+    // noFill(); // ellipse
+    // ellipse(width/2, (width/2)-60, width-140, width-140); // target shape for applying spin() and disappear().
+
+    if (mouseX > 70 && mouseY > 30 && mouseX < 470 && mouseY < 410) {
       return true;
-    } else {   
+    } else {
       return false;
     }
   }
   
+  void update() {
+    if (overEvent()) {
+      over = true; 
+    } else {
+      over = false;
+    }
+    if (mousePressed && over) {
+      locked = true; 
+    }
+    if (!mousePressed) {
+      locked = false; 
+    }
+    if (locked) {
+      x = mouseX-w/2;     
+      y = mouseY-h/2; 
+    }
+  }
+  
+  
 
-   
-//   void disappear() {
-//     shrink = shrink - 0.1;
-//     pushMatrix();
-//       scale(shrink);
-//     popMatrix();  
-//   }
-   
-//   void locked() {  // How do I make it so the other papers don't collect when one is selected and moved over another?
-//      
-//   }
 
+  //   void locked() {  // How do I make it so the other papers don't collect when one is selected and moved over another?
+  //      
+  //   }
 }
+

@@ -47,7 +47,7 @@ class Paper {
     popMatrix();    
   }
 
-  void over() {
+  void cursorOverShape() {
     if (overShape(x, y, w, h)) {    // references the overPaper function which determines if the cursor is over the shape.
       over = true;
     } else {

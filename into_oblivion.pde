@@ -3,40 +3,44 @@ int h = 70;
 float a = 0;
 PImage img;
 
-Paper papers1;
-Paper papers2;
-Paper papers3;
-Paper papers4;
-Paper papers5;
+Paper paper1;
+Paper paper2;
+Paper paper3;
+Paper paper4;
+Paper paper5;
 
 void setup() {
   size(550, 600);
   img = loadImage("void.jpg");
 
-  papers1 = new Paper( 50, 500, w, h);
-  papers2 = new Paper(150, 500, w, h);
-  papers3 = new Paper(250, 500, w, h);
-  papers4 = new Paper(350, 500, w, h);
-  papers5 = new Paper(450, 500, w, h);
+  paper1 = new Paper( 50, 500, w, h);
+  paper2 = new Paper(150, 500, w, h);
+  paper3 = new Paper(250, 500, w, h);
+  paper4 = new Paper(350, 500, w, h);
+  paper5 = new Paper(450, 500, w, h);
 }
 
 void draw() {
   image(img, 0, 0);
   
-  papers1.display();
-  papers1.over();
+  paper1.display();
+  paper1.over();
 
-  papers2.display();
-  papers2.over();
+  paper2.display();
+  paper2.over();
 
-  papers3.display();
-  papers3.over();
+  paper3.display();
+  paper3.over();
 
-  papers4.display();
-  papers4.over();
+  paper4.display();
+  paper4.over();
 
-  papers5.display();
-  papers5.over();
+  paper5.display();
+  paper5.over();
+  
+  if (paper1.overlaps(paper2)){
+    paper2.returnToOriginalPlace();
+  }
 }
 
 //void mouseReleased() {
